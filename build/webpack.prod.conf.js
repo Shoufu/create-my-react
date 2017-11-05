@@ -9,10 +9,6 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
-var env = process.env.NODE_ENV === 'testing'
-  ? require('../config/test.env')
-  : config.build.env
-
 var webpackConfig = merge(baseWebpackConfig, {
   devtool: config.build.productionSourceMap ? '#source-map' : false,
   output: {
@@ -21,9 +17,8 @@ var webpackConfig = merge(baseWebpackConfig, {
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
   plugins: [
-    // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
-      'process.env': env
+      'process.env': config.build.env
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
@@ -31,12 +26,11 @@ var webpackConfig = merge(baseWebpackConfig, {
       },
       sourceMap: true
     }),
-    // extract css into its own file
+    // 提取 CSS 为单独的文件
     new ExtractTextPlugin({
       filename: utils.assetsPath('css/[name].[contenthash].css')
     }),
-    // Compress extracted CSS. We are using this plugin so that possible
-    // duplicated CSS from different components can be deduped.
+    // 压缩 CSS 文件
     new OptimizeCSSPlugin({
       cssProcessorOptions: {
         safe: true
@@ -50,11 +44,11 @@ var webpackConfig = merge(baseWebpackConfig, {
       template: 'index.html',
       inject: true,
       minify: {
+        // 更多配置参考:
+        // https://github.com/kangax/html-minifier#options-quick-reference
         removeComments: true,
         collapseWhitespace: true,
         removeAttributeQuotes: true
-        // more options:
-        // https://github.com/kangax/html-minifier#options-quick-reference
       },
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency'
