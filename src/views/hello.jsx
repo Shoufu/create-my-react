@@ -1,23 +1,34 @@
 import React, { Component } from 'react'
-// import styled from 'styled-components'
-import logo from 'assets/logo.svg'
+import styled, { ThemeProvider } from 'styled-components'
+import DemoHeader from 'components/DemoHeaders'
 
-// const Outer = styled.div`
-//   text-align: center;
-// `
-
+const Outer = styled.div`
+  text-align: center;
+`
+const Intro = styled.p`
+  font-size: large;
+`
 class App extends Component {
+  elementClicked() {
+    // eslint-disable-next-line
+    console.log('Great!')
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
+      <Outer>
+        <ThemeProvider theme={{
+          alternateTheme: true,
+          fontColor: 'palevioletred',
+          backgroundColor: 'papayawhip'
+        }}>
+          <DemoHeader />
+        </ThemeProvider>
+        <DemoHeader />
+        <Intro onClick={this.elementClicked}>
           To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+        </Intro>
+      </Outer>
     )
   }
 }
