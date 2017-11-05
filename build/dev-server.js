@@ -4,14 +4,18 @@ var WebpackDevServer = require('webpack-dev-server')
 var webpackDevConfig = require('./webpack.dev.conf')
 var config = require('../config')
 
+if (!process.env.NODE_ENV) {
+  process.env.NODE_ENV = config.dev.env
+}
+
 var port = process.env.PORT || config.dev.port
 var autoOpenBrowser = !!config.dev.autoOpenBrowser
 
 var uri = 'http://localhost:' + port
-var hotClient = 'webpack-dev-server/client?' + uri
-Object.keys(webpackDevConfig.entry).forEach(function (name) {
-  webpackDevConfig.entry[name] = [hotClient, 'webpack/hot/only-dev-server'].concat(webpackDevConfig.entry[name])
-})
+webpackDevConfig.entry.app = [
+  'webpack-dev-server/client?' + uri,
+  'webpack/hot/only-dev-server'
+].concat(webpackDevConfig.entry.app)
 
 var server = new WebpackDevServer(webpack(webpackDevConfig), {
   // webpack-dev-server options

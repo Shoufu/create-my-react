@@ -10,7 +10,6 @@ const Intro = styled.p`
 `
 class App extends Component {
   elementClicked() {
-    // eslint-disable-next-line
     console.log('Great!')
   }
 

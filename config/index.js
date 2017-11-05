@@ -7,9 +7,7 @@ var path = require('path')
  */
 module.exports = {
   build: {
-    env: {
-      NODE_ENV: '"production"'
-    },
+    env: 'production',
     index: path.resolve(__dirname, '../dist/index.html'),
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
@@ -28,9 +26,7 @@ module.exports = {
     bundleAnalyzerReport: process.env.npm_config_report
   },
   dev: {
-    env: {
-      NODE_ENV: '"development"'
-    },
+    env: 'development',
     port: 8080,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',

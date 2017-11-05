@@ -16,6 +16,7 @@ module.exports = {
         "react"
     ],
     "rules": {
+        "no-console": process.env.NODE_ENV === 'production' ? 2 : 0,
         "react/jsx-uses-react": "error",
         "react/jsx-uses-vars": "error",
         "indent": [
