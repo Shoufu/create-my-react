@@ -1,3 +1,4 @@
+var webpack = require('webpack')
 var path = require('path')
 var utils = require('./utils')
 var config = require('../config')
@@ -73,5 +74,15 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  plugins: [
+    // Webpack3 的 Scope Hositing 特性
+    new webpack.optimize.ModuleConcatenationPlugin(),
+    // DefinePlugin 是webpack 的内置插件，该插件可以在打包时候替换制定的变量
+    new webpack.DefinePlugin({
+      'process.env': process.env.NODE_ENV === 'production'
+        ? config.build.env
+        : config.dev.env
+    }),
+  ]
 }

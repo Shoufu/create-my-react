@@ -8,10 +8,6 @@ var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 module.exports = merge(baseWebpackConfig, {
   devtool: '#cheap-module-eval-source-map',
   plugins: [
-    // DefinePlugin 是webpack 的内置插件，该插件可以在打包时候替换制定的变量
-    new webpack.DefinePlugin({
-      'process.env': config.dev.env
-    }),
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),

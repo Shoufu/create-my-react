@@ -17,9 +17,6 @@ var webpackConfig = merge(baseWebpackConfig, {
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': config.build.env
-    }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
