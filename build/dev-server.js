@@ -10,6 +10,7 @@ if (!process.env.NODE_ENV) {
 
 var port = process.env.PORT || config.dev.port
 var autoOpenBrowser = !!config.dev.autoOpenBrowser
+var proxy = config.dev.proxyTable
 
 var uri = 'http://localhost:' + port
 webpackDevConfig.entry.app = [
@@ -22,6 +23,7 @@ var server = new WebpackDevServer(webpack(webpackDevConfig), {
   hot: true,
   historyApiFallback: true,
   compress: true,
+  proxy: proxy,
   before: function (app) {
     app.get('/test', function (req, res) {
       res.json({ response: 'Yeah awesome!' });
