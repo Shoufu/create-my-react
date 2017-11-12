@@ -1,0 +1,2 @@
+export const ACTION_TEST_GET = 'ACTION_TEST_GET'
+export const ACTION_TEST_POST = 'ACTION_TEST_POST'
