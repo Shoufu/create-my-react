@@ -6,7 +6,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
 module.exports = merge(baseWebpackConfig, {
-  devtool: '#cheap-module-eval-source-map',
+  devtool: 'eval-source-map',
   plugins: [
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.HotModuleReplacementPlugin(),
