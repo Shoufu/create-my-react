@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components'
 import DemoHeader from 'components/DemoHeaders'
 
@@ -21,12 +22,13 @@ class App extends Component {
           fontColor: 'palevioletred',
           backgroundColor: 'papayawhip'
         }}>
-          <DemoHeader />
+          <DemoHeader title="Theme Header" />
         </ThemeProvider>
-        <DemoHeader />
+        <DemoHeader title="Demo Header" />
         <Intro onClick={this.elementClicked}>
           To get started, edit <code>src/App.js</code> and save to reload.
         </Intro>
+        <Link to="/">Back to root</Link>
       </Outer>
     )
   }

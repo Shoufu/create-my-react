@@ -2,7 +2,7 @@ import React from 'react'
 import styled, { keyframes } from 'styled-components'
 import logo from 'assets/logo.svg'
 
-const Header = styled.div`
+const Headers = styled.div`
   background-color: ${props => props.theme.backgroundColor || 'black'};
   height: 150px;
   padding: 20px;
@@ -17,8 +17,8 @@ const Header = styled.div`
   }
 `
 const spin = keyframes`
-from { transform: rotate(0deg); }
-to { transform: rotate(360deg); }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 `
 const Logo = styled.img`
   animation: ${spin} infinite 20s linear;
@@ -27,10 +27,10 @@ const Logo = styled.img`
   ${ props => props.backwards && 'animation-direction: reverse;'}
 `
 
-export default () => (
-  <Header>
+export default (props) => (
+  <Headers>
     <Logo src={logo} alt="logo" />
     <Logo backwards src={logo} alt="logo" />
-    <h1>Welcome to React</h1>
-  </Header>
+    <h1>Welcome to {props.title}</h1>
+  </Headers>
 )
