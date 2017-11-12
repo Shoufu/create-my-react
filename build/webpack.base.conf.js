@@ -22,11 +22,15 @@ module.exports = {
     extensions: ['.js', '.jsx', '.json'],
     alias: {
       '@': resolve('src'),
+      'actions': resolve('src/actions'),
       'assets': resolve('src/assets'),
       'components': resolve('src/components'),
-      'redux': resolve('src/redux'),
-      'router': resolve('src/router'),
-      'views': resolve('src/views')
+      'constants': resolve('src/constants'),
+      'containers': resolve('src/containers'),
+      'reducers': resolve('src/reducers'),
+      'routes': resolve('src/routes'),
+      'store': resolve('src/store'),
+      'utils': resolve('src/utils')
     }
   },
   module: {
