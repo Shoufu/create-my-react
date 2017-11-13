@@ -64,9 +64,9 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const test = JSON.stringify(state.test)
+  const test = state.getIn(['test', 'test', 'response'])
   return {
-    test: test !== '{}' ? test : 'Nothing!'
+    test: test || 'Nothing!'
   }
 }
 

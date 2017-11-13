@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import configureStore from './store'
 import Routers from './routes'
 
-const store = configureStore(window.__initStore__)
+const store = configureStore()
 
 injectGlobal`
   body {

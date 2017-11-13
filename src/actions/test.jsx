@@ -1,3 +1,4 @@
+import Immutable from 'immutable'
 import { ACTION_TEST_GET, ACTION_TEST_POST } from 'constants/actionTypes'
 import request from 'utils/requests'
 
@@ -5,7 +6,7 @@ export function getTest() {
   return async (dispatch) => {
     try {
       const response = await request.get('/test')
-      const data = await response.json()
+      const data = Immutable.Map(response)
       dispatch({
         type: ACTION_TEST_GET,
         data,
@@ -21,8 +22,7 @@ export function postTest(text = 'text from postTest') {
   return async (dispatch) => {
     try {
       const response = await request.post('/test', text)
-      const data = await response.json()
-      console.log(data)
+      const data = Immutable.Map(response)
       dispatch({
         type: ACTION_TEST_POST,
         data,
