@@ -5,23 +5,26 @@ const headers = {
   'Content-Type': 'application/x-www-form-urlencoded'
 }
 
-function get(url) {
-  return fetch(url, {
+async function get(url) {
+  const response = await fetch(url, {
     headers
   })
+  return response.json()
 }
 
-function post(url, data) {
+async function post(url, data) {
   const body = serialize(data)
-  return fetch(url, {
+  const response = await fetch(url, {
     method: 'POST',
     headers,
     body
   })
+  return response.json()
 }
 
 function serialize(data) {
-  const [str, keys] = [[], Object.keys(data)]
+  const str = []
+  const keys = Object.keys(data)
   if (!keys.length) return ''
   keys.forEach(item => {
     str.push(`${encodeURIComponent(item)}=${encodeURIComponent(data[item])}`)
