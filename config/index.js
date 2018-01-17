@@ -1,10 +1,6 @@
-// see http://vuejs-templates.github.io/webpack for documentation.
+// https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 var path = require('path')
 
-/**
- * env: 对应的开发环境
- * index:
- */
 module.exports = {
   build: {
     env: '"production"',
@@ -12,7 +8,7 @@ module.exports = {
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    productionSourceMap: true,
+    productionSourceMap: false,
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.
     // Before setting to `true`, make sure to:
@@ -23,15 +19,32 @@ module.exports = {
     // View the bundle analyzer report after build finishes:
     // `npm run build --report`
     // Set to `true` or `false` to always turn it on or off
-    bundleAnalyzerReport: process.env.npm_config_report
+    bundleAnalyzerReport: process.env.npm_config_report,
+    title: 'React App'
   },
   dev: {
     env: '"development"',
-    port: 8080,
-    autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+
+    // Various Dev Server settings
+    port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    autoOpenBrowser: true,
+    errorOverlay: true,
+    notifyOnErrors: true,
+    poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
+
+    proxyTable: {
+      '/test': {
+        target: 'http://localhost:8080/',
+        secure: false,
+        changeOrigin: true,
+        pathRewrite: {
+          '/test$': '/test-dev-server'
+        }
+      }
+    },
+
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README
     // (https://github.com/webpack/css-loader#sourcemaps)

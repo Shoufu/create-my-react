@@ -9,6 +9,8 @@ test/e2e/reports
 selenium-debug.log
 
 # Editor directories and files
+/static/vendors.bundle.js
+/static/manifest.json
 .idea
 .vscode
 *.suo
