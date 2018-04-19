@@ -28,7 +28,7 @@ module.exports = {
     assetsPublicPath: '/',
 
     // Various Dev Server settings
-    port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    port: 8080, // can be overwritten by process.env.PORT
     autoOpenBrowser: true,
     errorOverlay: true,
     notifyOnErrors: true,

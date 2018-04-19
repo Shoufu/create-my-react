@@ -9,7 +9,6 @@ var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
 module.exports = merge(baseWebpackConfig, {
   devtool: 'cheap-eval-source-map',
-
   plugins: [
     new webpack.DllReferencePlugin({
       context: path.join(__dirname, '../static'),
