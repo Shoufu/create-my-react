@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux-immutable'
+import { combineReducers } from 'redux'
 import { test } from './test'
 
 export default combineReducers({

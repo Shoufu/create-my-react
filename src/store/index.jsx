@@ -1,10 +1,9 @@
-import Immutable from 'immutable'
 import { createStore, applyMiddleware } from 'redux'
 import { createLogger } from 'redux-logger'
 import thunk from 'redux-thunk'
 import reducer from 'reducers'
 
-const initialState = Immutable.Map({})
+const initialState = {}
 const middleware = [thunk]
 
 // eslint-disable-next-line

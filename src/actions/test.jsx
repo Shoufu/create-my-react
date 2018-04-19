@@ -1,36 +1,27 @@
-import Immutable from 'immutable'
-import { ACTION_TEST_GET, ACTION_TEST_POST } from 'constants/actionTypes'
 import request from 'utils/requests'
+import {
+  ACTION_TEST_PENGDING,
+  ACTION_TEST_FULFILLED,
+  ACTION_TEST_REJECTED,
+  ACTION_TEST_REMOVED
+} from 'constants/actionTypes'
 
 export function getTest() {
-  return async (dispatch) => {
+  return async dispatch => {
+    dispatch({ type: ACTION_TEST_PENGDING, data: 'pending' })
     try {
       const response = await request.get('/test')
-      const data = Immutable.Map(response)
-      dispatch({
-        type: ACTION_TEST_GET,
-        data,
-      })
+      dispatch({ type: ACTION_TEST_FULFILLED, data: response })
     } catch (error) {
-      console.log('Error from getTest: ')
       console.log(error)
+      dispatch({ type: ACTION_TEST_REJECTED, error })
     }
   }
 }
 
-export function postTest(text = 'text from postTest') {
-  return async (dispatch) => {
-    try {
-      const response = await request.post('/test', text)
-      const data = Immutable.Map(response)
-      dispatch({
-        type: ACTION_TEST_POST,
-        data,
-      })
-    } catch (error) {
-      console.log('Error from postTest: ')
-      console.log(error)
-    }
-  }
+export function removeText() {
+  return dispatch => dispatch({
+    type: ACTION_TEST_REMOVED,
+    data: ''
+  })
 }
-

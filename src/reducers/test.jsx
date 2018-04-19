@@ -1,17 +1,16 @@
-import Immutable from 'immutable'
 import * as actionTypes from 'constants/actionTypes'
 
-const defaultState = Immutable.Map({ test: {} })
-
-function test(state = defaultState, action) {
-  let data
+function test(state = {}, action) {
   switch (action.type) {
-    case actionTypes.ACTION_TEST_GET:
-    case actionTypes.ACTION_TEST_POST:
-      data = state.set('test', action.data)
-      return data
+    case actionTypes.ACTION_TEST_PENGDING:
+      return { ...state, loading: true }
+    case actionTypes.ACTION_TEST_REMOVED:
+    case actionTypes.ACTION_TEST_FULFILLED:
+      return { data: action.data, loading: false }
+    case actionTypes.ACTION_TEST_REJECTED:
+      return { ...state, loading: false, error: action.error }
     default:
-      return state
+      return { ...state, loading: false }
   }
 }
 
