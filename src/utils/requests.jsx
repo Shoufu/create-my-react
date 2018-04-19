@@ -54,7 +54,6 @@ async function get(url) {
   return parse(text)
 }
 
-
 /**
  * 模拟 HTTP POST 方法
  * @param {string}            url         要访问的 url
