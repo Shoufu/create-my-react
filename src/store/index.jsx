@@ -3,7 +3,7 @@ import { createLogger } from 'redux-logger'
 import thunk from 'redux-thunk'
 import reducer from 'reducers'
 
-const initialState = {}
+const initialState = window.__INITIAL_STATE__ || {}
 const middleware = [thunk]
 
 // eslint-disable-next-line
