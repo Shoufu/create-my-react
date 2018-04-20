@@ -13,6 +13,8 @@ selenium-debug.log
 /static/manifest.json
 .idea
 .vscode
+package-lock.json
+yarn.lock
 *.suo
 *.ntvs*
 *.njsproj
