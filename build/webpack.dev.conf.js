@@ -73,7 +73,16 @@ module.exports = merge(baseWebpackConfig, {
       compilationSuccessInfo: {
         messages: ['Listening at ' + uri],
         notes: Object.keys(proxy).map(function (url) {
-          return '[HPM] Proxy created: ' + url + '  ->  ' + proxy[url].target
+          var target = proxy[url].target
+          var pathRewrite = proxy[url].pathRewrite
+          if (pathRewrite) {
+            Object.keys(pathRewrite).forEach(function (regex) {
+              if (new RegExp(regex).test(url)) {
+                target = target.replace(/\/$/, '') + pathRewrite[regex]
+              }
+            })
+          }
+          return '[HPM] Proxy created: ' + url + '  ->  ' + target
         })
       },
       onErrors: config.dev.notifyOnErrors ?
