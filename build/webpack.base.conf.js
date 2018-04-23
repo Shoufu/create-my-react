@@ -57,22 +57,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [{
-              loader: 'css-loader',
-              options: {
-                sourceMap: sourceMapEnabled
-              }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                sourceMap: sourceMapEnabled
-              }
-            }
-          ]
-        }),
+        use: utils.generateCSSLoaders(),
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
