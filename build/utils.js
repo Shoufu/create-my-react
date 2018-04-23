@@ -2,7 +2,8 @@ var path = require('path')
 var config = require('../config')
 var packageConfig = require('../package.json')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var sourceMapEnabled = process.env.NODE_ENV === 'production' ?
+var isProduction = process.env.NODE_ENV === 'production'
+var sourceMapEnabled = isProduction ?
   config.build.productionSourceMap :
   config.dev.cssSourceMap
 
@@ -53,10 +54,16 @@ exports.generateCSSLoaders = function (loader, loaderOptions) {
     })
   }
 
-  return config.build.extractCSS ?
-    ExtractTextPlugin.extract({
-      fallback: 'style-loader',
-      use: loaders
-    }) :
-    loaders
+  // dev 下使用 ExtractTextPlugin 会使 css 无法热更新
+  // 因此在 dev 环境下不使用 ExtractTextPlugin
+  if (isProduction) {
+    return config.build.extractCSS ?
+      ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: loaders
+      }) :
+      loaders
+  } else {
+    return ['style-loader'].concat(loaders)
+  }
 }
