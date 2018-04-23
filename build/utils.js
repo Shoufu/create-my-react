@@ -33,8 +33,6 @@ exports.createNotifierCallback = function () {
 
 exports.generateCSSLoaders = function (loader, loaderOptions) {
   var loaders = [{
-    loader: 'style-loader'
-  }, {
     loader: 'css-loader',
     options: {
       sourceMap: sourceMapEnabled
@@ -57,6 +55,7 @@ exports.generateCSSLoaders = function (loader, loaderOptions) {
 
   return config.build.extractCSS ?
     ExtractTextPlugin.extract({
+      fallback: 'style-loader',
       use: loaders
     }) :
     loaders
