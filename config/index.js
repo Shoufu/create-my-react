@@ -5,6 +5,8 @@ module.exports = {
   build: {
     env: '"production"',
     index: path.resolve(__dirname, '../dist/index.html'),
+    title: 'React App',
+    icon: path.resolve(__dirname, '../src/assets/favicon.ico'),
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
@@ -20,7 +22,6 @@ module.exports = {
     // `npm run build --report`
     // Set to `true` or `false` to always turn it on or off
     bundleAnalyzerReport: process.env.npm_config_report,
-    title: 'React App',
     extractCSS: true
   },
   dev: {

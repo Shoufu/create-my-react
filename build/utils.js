@@ -26,7 +26,7 @@ exports.createNotifierCallback = function () {
       title: packageConfig.name,
       message: severity + ': ' + error.name,
       subtitle: filename || '',
-      icon: path.join(__dirname, 'logo.png')
+      icon: config.build.icon
     })
   }
 }

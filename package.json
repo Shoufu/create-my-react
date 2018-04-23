@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "A react scaffold referred to vue-cli",
   "scripts": {
-    "dev": "node build/dev-server.js",
+    "dev": "webpack-dev-server --inline --color --progress --config build/webpack.dev.conf.js",
     "dev:first": "npm run dll && npm run dev",
     "dll": "webpack --progress --colors --config build/webpack.dll.conf.js",
-    "start": "node build/dev-server.js",
+    "start": "npm run dev",
     "build": "node build/build.js"
   },
   "author": "GYMing <gyming@outlook.com>",
@@ -49,7 +49,6 @@
     "friendly-errors-webpack-plugin": "^1.6.1",
     "html-webpack-plugin": "^2.30.1",
     "node-notifier": "^5.2.1",
-    "opn": "^5.1.0",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "ora": "^1.3.0",
     "postcss-import": "^11.1.0",

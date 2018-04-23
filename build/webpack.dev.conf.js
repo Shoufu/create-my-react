@@ -7,8 +7,51 @@ var baseWebpackConfig = require('./webpack.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
+if (!process.env.NODE_ENV) {
+  process.env.NODE_ENV = config.dev.env
+}
+
+var proxy = config.dev.proxyTable
+var port = process.env.PORT || config.dev.port
+var uri = 'http://localhost:' + port
+
 module.exports = merge(baseWebpackConfig, {
   devtool: 'cheap-eval-source-map',
+  entry: {
+    app: [
+      'webpack-dev-server/client?' + uri,
+      'webpack/hot/only-dev-server'
+    ].concat(baseWebpackConfig.entry.app)
+  },
+  devServer: {
+    // webpack-dev-server options
+    hot: true,
+    historyApiFallback: true,
+    compress: true,
+    open: config.dev.autoOpenBrowser,
+    proxy: proxy,
+    before: function (app) {
+      app.get('/test-dev-server', function (req, res) {
+        res.send('Yeah you find it!');
+      });
+    },
+    overlay: config.dev.errorOverlay ? {
+      warnings: false,
+      errors: true
+    } : false,
+
+    // webpack-dev-middleware options
+    publicPath: config.dev.assetsPublicPath,
+    headers: {
+      "X-Custom-Header": "yes"
+    },
+    quiet: true, // necessary for FriendlyErrorsPlugin
+    watchOptions: {
+      ignored: /node_modules/,
+      aggregateTimeout: 300,
+      poll: 1000
+    },
+  },
   plugins: [
     new webpack.DllReferencePlugin({
       context: path.join(__dirname, '../static'),
@@ -27,9 +70,14 @@ module.exports = merge(baseWebpackConfig, {
       inject: true
     }),
     new FriendlyErrorsPlugin({
-      onErrors: config.dev.notifyOnErrors
-        ? utils.createNotifierCallback()
-        : undefined
+      compilationSuccessInfo: {
+        messages: ['Listening at ' + uri],
+        notes: Object.keys(proxy).map(function (url) {
+          return '[HPM] Proxy created: ' + url + '  ->  ' + proxy[url].target
+        })
+      },
+      onErrors: config.dev.notifyOnErrors ?
+        utils.createNotifierCallback() : undefined
     })
   ]
 })
