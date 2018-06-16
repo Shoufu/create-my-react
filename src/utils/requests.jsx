@@ -1,6 +1,8 @@
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
 
+import { requestErrorHandler } from './errorHandler'
+
 const headers = new Headers({
   'Accept': '*/*',
   'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -8,7 +10,7 @@ const headers = new Headers({
 })
 
 const uploadOptions = {
-  mode: 'no-cors',
+  // mode: 'no-cors',
   credentials: 'include',
 }
 
@@ -44,22 +46,7 @@ function parse(text) {
   }
 }
 
-/**
- * 模拟 HTTP GET 方法
- * @param {string} url 要访问的 url
- */
-async function get(url) {
-  const response = await fetch(url, options)
-  const text = await response.text()
-  return parse(text)
-}
-
-/**
- * 模拟 HTTP POST 方法
- * @param {string}            url         要访问的 url
- * @param {object|FormData}   data        要 POST 的数据
- */
-async function post(url, data) {
+function getFetchOptions(data, fetchOptions) {
   let body, option
   if (data instanceof FormData) {
     body = data
@@ -69,16 +56,64 @@ async function post(url, data) {
     option = options
   }
 
-  const response = await fetch(
-    url,
-    Object.assign({
-      method: 'POST',
-      body
-    }, option)
-  )
-
-  const text = await response.text()
-  return parse(text)
+  return Object.assign({ body }, option, fetchOptions)
 }
 
-export default { get, post }
+async function ajax(url, fetchOptions) {
+  try {
+    const response = await fetch(url, fetchOptions)
+    const text = parse(await response.text())
+    if (response.ok) {
+      return text
+    } else {
+      const { status, statusText } = response
+      throw {
+        status,
+        statusText,
+        text
+      }
+    }
+  } catch (error) {
+    requestErrorHandler(error)
+  }
+}
+
+export default {
+  /**
+   * 模拟 HTTP GET 方法
+   * @param {string} url 要访问的 url
+   */
+  get(url) {
+    return ajax(url, options)
+  },
+  /**
+   * 模拟 HTTP POST 方法
+   * @param {string}            url         要访问的 url
+   * @param {object|FormData}   data        要发送的数据
+   */
+  post(url, data) {
+    return ajax(url, getFetchOptions(data, {
+      method: 'POST'
+    }))
+  },
+  /**
+   * 模拟 HTTP PUT 方法
+   * @param {string}            url         要访问的 url
+   * @param {object|FormData}   data        要发送的数据
+   */
+  put(url, data) {
+    return ajax(url, getFetchOptions(data, {
+      method: 'PUT'
+    }))
+  },
+  /**
+   * 模拟 HTTP DELETE 方法
+   * @param {string}            url         要访问的 url
+   * @param {object|FormData}   data        要发送的数据
+   */
+  delete(url, data) {
+    return ajax(url, getFetchOptions(data, {
+      method: 'DELETE'
+    }))
+  }
+}
