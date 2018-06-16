@@ -3,15 +3,12 @@ var path = require('path')
 var utils = require('./utils')
 var config = require('../config')
 var isProduction = process.env.NODE_ENV === 'production'
-var sourceMapEnabled = isProduction ?
-  config.build.productionSourceMap :
-  config.dev.cssSourceMap
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
-module.exports = {
+var webpackConfig = {
   entry: {
     app: './src/App.jsx'
   },
@@ -23,31 +20,10 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
-    alias: {
-      '@': resolve('src'),
-      'actions': resolve('src/actions'),
-      'assets': resolve('src/assets'),
-      'components': resolve('src/components'),
-      'constants': resolve('src/constants'),
-      'containers': resolve('src/containers'),
-      'decorators': resolve('src/decorators'),
-      'reducers': resolve('src/reducers'),
-      'routes': resolve('src/routes'),
-      'store': resolve('src/store'),
-      'styles': resolve('src/styles'),
-      'utils': resolve('src/utils')
-    }
+    alias: config.build.alias
   },
   module: {
-    rules: [{
-        test: /\.(js|jsx)$/,
-        loader: 'eslint-loader',
-        enforce: 'pre',
-        include: [resolve('src')],
-        options: {
-          formatter: require('eslint-friendly-formatter')
-        }
-      },
+    rules: [
       {
         test: /\.(js|jsx)$/,
         loader: 'babel-loader?cacheDirectory',
@@ -93,3 +69,19 @@ module.exports = {
     })
   ]
 }
+
+if (config.build.useEslint) {
+  var eslintLoader = {
+    test: /\.(js|jsx)$/,
+    loader: 'eslint-loader',
+    enforce: 'pre',
+    include: [resolve('src')],
+    options: {
+      formatter: require('eslint-friendly-formatter')
+    }
+  }
+
+  webpackConfig.module.rules.unshift(eslintLoader)
+}
+
+module.exports = webpackConfig

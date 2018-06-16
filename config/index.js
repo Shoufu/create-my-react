@@ -22,7 +22,22 @@ module.exports = {
     // `npm run build --report`
     // Set to `true` or `false` to always turn it on or off
     bundleAnalyzerReport: process.env.npm_config_report,
-    extractCSS: true
+    extractCSS: true,
+    useEslint: true,
+    alias: {
+      '@': resolve('src'),
+      'actions': resolve('src/actions'),
+      'assets': resolve('src/assets'),
+      'components': resolve('src/components'),
+      'constants': resolve('src/constants'),
+      'containers': resolve('src/containers'),
+      'decorators': resolve('src/decorators'),
+      'reducers': resolve('src/reducers'),
+      'routes': resolve('src/routes'),
+      'store': resolve('src/store'),
+      'styles': resolve('src/styles'),
+      'utils': resolve('src/utils')
+    }
   },
   dev: {
     env: '"development"',
