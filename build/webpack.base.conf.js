@@ -23,8 +23,7 @@ var webpackConfig = {
     alias: config.build.alias
   },
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.(js|jsx)$/,
         loader: 'babel-loader?cacheDirectory',
         include: [resolve('src')]

@@ -1,5 +1,8 @@
 // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 var path = require('path')
+var resolve = function (dir) {
+  return path.join(__dirname, '..', dir)
+}
 
 module.exports = {
   build: {
@@ -46,7 +49,7 @@ module.exports = {
 
     // Various Dev Server settings
     port: 8080, // can be overwritten by process.env.PORT
-    autoOpenBrowser: true,
+    autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
