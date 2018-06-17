@@ -65,6 +65,7 @@ module.exports = merge(baseWebpackConfig, {
     new HtmlWebpackPlugin({
       env: config.dev.env,
       title: config.build.title,
+      favicon: config.build.icon,
       filename: 'index.html',
       template: 'index.ejs',
       inject: true

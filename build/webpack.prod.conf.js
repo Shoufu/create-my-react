@@ -31,9 +31,11 @@ var webpackConfig = merge(baseWebpackConfig, {
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
+      env: config.build.env,
+      title: config.build.title,
+      favicon: config.build.icon,
       filename: config.build.index,
       template: 'index.ejs',
-      title: config.build.title,
       inject: true,
       minify: {
         // 更多配置参考:
