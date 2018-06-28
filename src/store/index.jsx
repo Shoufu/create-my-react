@@ -12,7 +12,7 @@ if (process.env.NODE_ENV !== 'production') {
   middleware.push(logger)
 }
 
-export default function configureStore() {
+export default function configureStore () {
   const store = createStore(
     reducers,
     initialState,

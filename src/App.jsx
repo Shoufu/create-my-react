@@ -8,11 +8,12 @@ import '@styles/index.css'
 
 const store = configureStore()
 
-render((
+render(
   <Provider store={store}>
     <Routers />
-  </Provider>
-), document.getElementById('root'))
+  </Provider>,
+  document.getElementById('root')
+)
 
 if (module.hot) {
   module.hot.accept()
