@@ -7,8 +7,8 @@ module.exports = {
   extends: ['standard', 'plugin:react/recommended'],
   parser: 'babel-eslint',
   parserOptions: {
+    parserOptions: true,
     ecmaFeatures: {
-      experimentalObjectRestSpread: true,
       jsx: true
     },
     sourceType: 'module'

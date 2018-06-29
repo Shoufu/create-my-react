@@ -35,7 +35,6 @@ var webpackConfig = merge(baseWebpackConfig, {
       title: config.build.title,
       favicon: config.build.icon,
       filename: config.build.index,
-      template: 'index.ejs',
       inject: true,
       minify: {
         // 更多配置参考:

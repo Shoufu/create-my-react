@@ -6,6 +6,7 @@ var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
 
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = config.dev.env
@@ -64,11 +65,15 @@ module.exports = merge(baseWebpackConfig, {
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       env: config.dev.env,
-      title: config.build.title,
+      // title: config.build.title,
       favicon: config.build.icon,
       filename: 'index.html',
-      template: 'index.ejs',
       inject: true
+    }),
+    new AddAssetHtmlPlugin({
+      filepath: path.resolve(__dirname, '../static/vendors.bundle.js'),
+      includeSourcemap: false,
+      hash: true
     }),
     new FriendlyErrorsPlugin({
       compilationSuccessInfo: {
