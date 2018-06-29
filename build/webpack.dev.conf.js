@@ -65,7 +65,7 @@ module.exports = merge(baseWebpackConfig, {
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       env: config.dev.env,
-      // title: config.build.title,
+      title: config.build.title,
       favicon: config.build.icon,
       filename: 'index.html',
       inject: true
