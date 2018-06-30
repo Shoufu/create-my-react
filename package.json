@@ -70,7 +70,7 @@
   },
   "main": "index.js",
   "repository": {
-    "url": "git@github.com:Shoufu/create-my-react.git",
+    "url": "git@github.com:brilliantGuo/create-my-react.git",
     "type": "git"
   },
   "browserslist": [
