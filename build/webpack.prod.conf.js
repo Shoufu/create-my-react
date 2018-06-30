@@ -8,9 +8,11 @@ var CopyWebpackPlugin = require('copy-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-var sourceMapEnabled = process.env.NODE_ENV === 'production' ?
-  config.build.productionSourceMap :
-  config.dev.cssSourceMap
+var PreloadWebpackPlugin = require('preload-webpack-plugin')
+var sourceMapEnabled =
+  process.env.NODE_ENV === 'production'
+    ? config.build.productionSourceMap
+    : config.dev.cssSourceMap
 
 var webpackConfig = merge(baseWebpackConfig, {
   devtool: config.build.productionSourceMap ? '#source-map' : false,
@@ -47,6 +49,19 @@ var webpackConfig = merge(baseWebpackConfig, {
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency'
     }),
+    new PreloadWebpackPlugin({
+      rel: 'prefetch'
+    }),
+    new PreloadWebpackPlugin({
+      rel: 'preload',
+      as (entry) {
+        if (/\.css$/.test(entry)) return 'style'
+        if (/\.woff$/.test(entry)) return 'font'
+        if (/\.png$/.test(entry)) return 'image'
+        return 'script'
+      },
+      include: ['app', 'vendor', 'manifest']
+    }),
     // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
@@ -55,9 +70,7 @@ var webpackConfig = merge(baseWebpackConfig, {
         return (
           module.resource &&
           /\.js$/.test(module.resource) &&
-          module.resource.indexOf(
-            path.join(__dirname, '../node_modules')
-          ) === 0
+          module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0
         )
       }
     }),
@@ -78,18 +91,20 @@ var webpackConfig = merge(baseWebpackConfig, {
     // 提取 CSS 为单独的文件
     new ExtractTextPlugin({
       filename: utils.assetsPath('css/[name].[contenthash].css'),
-      allChunks: true,
+      allChunks: true
     }),
     // 压缩 CSS 文件
     new OptimizeCSSPlugin({
-      cssProcessorOptions: sourceMapEnabled ? {
-        safe: true,
-        map: {
-          inline: false
+      cssProcessorOptions: sourceMapEnabled
+        ? {
+          safe: true,
+          map: {
+            inline: false
+          }
         }
-      } : {
-        safe: true
-      }
+        : {
+          safe: true
+        }
     })
   ]
 })
@@ -102,9 +117,7 @@ if (config.build.productionGzip) {
       asset: '[path].gz[query]',
       algorithm: 'gzip',
       test: new RegExp(
-        '\\.(' +
-        config.build.productionGzipExtensions.join('|') +
-        ')$'
+        '\\.(' + config.build.productionGzipExtensions.join('|') + ')$'
       ),
       threshold: 10240,
       minRatio: 0.8
@@ -113,7 +126,8 @@ if (config.build.productionGzip) {
 }
 
 if (config.build.bundleAnalyzerReport) {
-  var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+  var BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+    .BundleAnalyzerPlugin
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
 

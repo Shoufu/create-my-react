@@ -6,7 +6,8 @@ var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
-const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
+var AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
+var PreloadWebpackPlugin = require('preload-webpack-plugin')
 
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = config.dev.env
@@ -33,25 +34,27 @@ module.exports = merge(baseWebpackConfig, {
     proxy: proxy,
     before: function (app) {
       app.get('/test-dev-server', function (req, res) {
-        res.send('Yeah you find it!');
-      });
+        res.send('Yeah you find it!')
+      })
     },
-    overlay: config.dev.errorOverlay ? {
-      warnings: false,
-      errors: true
-    } : false,
+    overlay: config.dev.errorOverlay
+      ? {
+        warnings: false,
+        errors: true
+      }
+      : false,
 
     // webpack-dev-middleware options
     publicPath: config.dev.assetsPublicPath,
     headers: {
-      "X-Custom-Header": "yes"
+      'X-Custom-Header': 'yes'
     },
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       ignored: /node_modules/,
       aggregateTimeout: 300,
       poll: 1000
-    },
+    }
   },
   plugins: [
     new webpack.DllReferencePlugin({
@@ -76,6 +79,19 @@ module.exports = merge(baseWebpackConfig, {
       includeSourcemap: false,
       hash: true
     }),
+    new PreloadWebpackPlugin({
+      rel: 'prefetch'
+    }),
+    new PreloadWebpackPlugin({
+      rel: 'preload',
+      as (entry) {
+        if (/\.css$/.test(entry)) return 'style'
+        if (/\.woff$/.test(entry)) return 'font'
+        if (/\.png$/.test(entry)) return 'image'
+        return 'script'
+      },
+      include: ['app', 'vendor', 'manifest']
+    }),
     new FriendlyErrorsPlugin({
       compilationSuccessInfo: {
         messages: ['Listening at ' + uri],
@@ -94,8 +110,9 @@ module.exports = merge(baseWebpackConfig, {
           return '[HPM] Proxy created: ' + url + '  ->  ' + target
         })
       },
-      onErrors: config.dev.notifyOnErrors ?
-        utils.createNotifierCallback() : undefined
+      onErrors: config.dev.notifyOnErrors
+        ? utils.createNotifierCallback()
+        : undefined
     })
   ]
 })
