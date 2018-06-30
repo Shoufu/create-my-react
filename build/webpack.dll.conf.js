@@ -5,12 +5,12 @@ var vendors = Object.keys(project.dependencies)
 
 module.exports = {
   entry: {
-    vendors: vendors,
+    vendors: vendors
   },
   output: {
     path: path.resolve(__dirname, '../static'),
     filename: '[name].bundle.js',
-    library: '[name]',
+    library: '[name]'
   },
   plugins: [
     new webpack.optimize.ModuleConcatenationPlugin(),
@@ -18,10 +18,10 @@ module.exports = {
       path: path.join(__dirname, '../static', 'manifest.json'),
       name: '[name]',
       filename: '[name].js',
-      context: path.join(__dirname, '../static'),
+      context: path.join(__dirname, '../static')
     })
   ],
   node: {
-    fs: 'empty',
+    fs: 'empty'
   }
-};
+}

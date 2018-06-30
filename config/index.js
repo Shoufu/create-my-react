@@ -6,7 +6,7 @@ var resolve = function (dir) {
 
 module.exports = {
   build: {
-    env: '"production"',
+    env: 'production',
     index: path.resolve(__dirname, '../dist/index.html'),
     title: 'React App',
     icon: path.resolve(__dirname, '../src/assets/favicon.ico'),
@@ -43,7 +43,7 @@ module.exports = {
     }
   },
   dev: {
-    env: '"development"',
+    env: 'development',
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
 

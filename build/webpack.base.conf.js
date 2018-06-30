@@ -4,7 +4,7 @@ var utils = require('./utils')
 var config = require('../config')
 var isProduction = process.env.NODE_ENV === 'production'
 
-function resolve(dir) {
+function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
@@ -15,22 +15,24 @@ var webpackConfig = {
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
-    publicPath: isProduction ?
-      config.build.assetsPublicPath : config.dev.assetsPublicPath
+    publicPath: isProduction
+      ? config.build.assetsPublicPath
+      : config.dev.assetsPublicPath
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
     alias: config.build.alias
   },
   module: {
-    rules: [{
+    rules: [
+      {
         test: /\.(js|jsx)$/,
         loader: 'babel-loader?cacheDirectory',
         include: [resolve('src')]
       },
       {
         test: /\.css$/,
-        use: utils.generateCSSLoaders(),
+        use: utils.generateCSSLoaders()
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -63,8 +65,9 @@ var webpackConfig = {
     new webpack.optimize.ModuleConcatenationPlugin(),
     // DefinePlugin 是webpack 的内置插件，该插件可以在打包时候替换制定的变量
     new webpack.DefinePlugin({
-      'process.env': isProduction ?
-        config.build.env : config.dev.env
+      'process.env.NODE_ENV': JSON.stringify(
+        isProduction ? config.build.env : config.dev.env
+      )
     })
   ]
 }

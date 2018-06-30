@@ -68,6 +68,7 @@ module.exports = merge(baseWebpackConfig, {
       title: config.build.title,
       favicon: config.build.icon,
       filename: 'index.html',
+      template: 'index.html',
       inject: true
     }),
     new AddAssetHtmlPlugin({

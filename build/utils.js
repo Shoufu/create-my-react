@@ -3,14 +3,15 @@ var config = require('../config')
 var packageConfig = require('../package.json')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var isProduction = process.env.NODE_ENV === 'production'
-var sourceMapEnabled = isProduction ?
-  config.build.productionSourceMap :
-  config.dev.cssSourceMap
+var sourceMapEnabled = isProduction
+  ? config.build.productionSourceMap
+  : config.dev.cssSourceMap
 
 exports.assetsPath = function (_path) {
-  var assetsSubDirectory = process.env.NODE_ENV === 'production' ?
-    config.build.assetsSubDirectory :
-    config.dev.assetsSubDirectory
+  var assetsSubDirectory =
+    process.env.NODE_ENV === 'production'
+      ? config.build.assetsSubDirectory
+      : config.dev.assetsSubDirectory
   return path.posix.join(assetsSubDirectory, _path)
 }
 
@@ -33,17 +34,20 @@ exports.createNotifierCallback = function () {
 }
 
 exports.generateCSSLoaders = function (loader, loaderOptions) {
-  var loaders = [{
-    loader: 'css-loader',
-    options: {
-      sourceMap: sourceMapEnabled
+  var loaders = [
+    {
+      loader: 'css-loader',
+      options: {
+        sourceMap: sourceMapEnabled
+      }
+    },
+    {
+      loader: 'postcss-loader',
+      options: {
+        sourceMap: sourceMapEnabled
+      }
     }
-  }, {
-    loader: 'postcss-loader',
-    options: {
-      sourceMap: sourceMapEnabled
-    }
-  }]
+  ]
 
   if (loader) {
     loaders.push({
@@ -57,12 +61,12 @@ exports.generateCSSLoaders = function (loader, loaderOptions) {
   // dev 下使用 ExtractTextPlugin 会使 css 无法热更新
   // 因此在 dev 环境下不使用 ExtractTextPlugin
   if (isProduction) {
-    return config.build.extractCSS ?
-      ExtractTextPlugin.extract({
+    return config.build.extractCSS
+      ? ExtractTextPlugin.extract({
         fallback: 'style-loader',
         use: loaders
-      }) :
-      loaders
+      })
+      : loaders
   } else {
     return ['style-loader'].concat(loaders)
   }
