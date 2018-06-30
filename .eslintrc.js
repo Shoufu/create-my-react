@@ -4,17 +4,17 @@ module.exports = {
     commonjs: true,
     es6: true
   },
-  extends: ['standard', 'plugin:react/recommended'],
+  extends: ['plugin:react/recommended', 'standard'],
   parser: 'babel-eslint',
   parserOptions: {
-    parserOptions: true,
+    ecmaVersion: 6,
+    sourceType: 'module',
     ecmaFeatures: {
       jsx: true
-    },
-    sourceType: 'module'
+    }
   },
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 2 : 0,
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'react/display-name': 0
   }
 }
