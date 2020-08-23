@@ -1,6 +1,6 @@
 // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
-var path = require('path')
-var resolve = function (dir) {
+const path = require('path')
+const resolve = function (dir) {
   return path.join(__dirname, '..', dir)
 }
 

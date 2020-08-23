@@ -1,27 +1,27 @@
-var path = require('path')
-var webpack = require('webpack')
-var config = require('../config')
-var utils = require('./utils')
-var merge = require('webpack-merge')
-var baseWebpackConfig = require('./webpack.base.conf')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
-var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
-var AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
-var PreloadWebpackPlugin = require('preload-webpack-plugin')
+const path = require('path')
+const webpack = require('webpack')
+const config = require('../config')
+const utils = require('./utils')
+const { merge } = require('webpack-merge')
+const baseWebpackConfig = require('./webpack.base.conf')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
+const PreloadWebpackPlugin = require('preload-webpack-plugin')
 
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = config.dev.env
 }
 
-var proxy = config.dev.proxyTable
-var port = process.env.PORT || config.dev.port
-var uri = 'http://localhost:' + port
+const proxy = config.dev.proxyTable
+const port = process.env.PORT || config.dev.port
+const uri = `http://localhost:${port}`
 
 module.exports = merge(baseWebpackConfig, {
   devtool: 'cheap-eval-source-map',
   entry: {
     app: [
-      'webpack-dev-server/client?' + uri,
+      `webpack-dev-server/client?${uri}`,
       'webpack/hot/only-dev-server'
     ].concat(baseWebpackConfig.entry.app)
   },
@@ -57,10 +57,10 @@ module.exports = merge(baseWebpackConfig, {
     }
   },
   plugins: [
-    new webpack.DllReferencePlugin({
-      context: path.join(__dirname, '../static'),
-      manifest: require('../static/manifest.json')
-    }),
+    // new webpack.DllReferencePlugin({
+    //   context: path.join(__dirname, '../static'),
+    //   manifest: require('../static/manifest.json')
+    // }),
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
@@ -72,32 +72,31 @@ module.exports = merge(baseWebpackConfig, {
       favicon: config.build.icon,
       filename: 'index.html',
       template: 'index.html',
-      inject: true
     }),
-    new AddAssetHtmlPlugin({
-      filepath: path.resolve(__dirname, '../static/vendors.bundle.js'),
-      includeSourcemap: false,
-      hash: true
-    }),
-    new PreloadWebpackPlugin({
-      rel: 'prefetch'
-    }),
-    new PreloadWebpackPlugin({
-      rel: 'preload',
-      as (entry) {
-        if (/\.css$/.test(entry)) return 'style'
-        if (/\.woff$/.test(entry)) return 'font'
-        if (/\.png$/.test(entry)) return 'image'
-        return 'script'
-      },
-      include: ['app', 'vendor', 'manifest']
-    }),
+    // new AddAssetHtmlPlugin({
+    //   filepath: path.resolve(__dirname, '../static/vendors.bundle.js'),
+    //   includeSourcemap: false,
+    //   hash: true
+    // }),
+    // new PreloadWebpackPlugin({
+    //   rel: 'prefetch'
+    // }),
+    // new PreloadWebpackPlugin({
+    //   rel: 'preload',
+    //   as (entry) {
+    //     if (/\.css$/.test(entry)) return 'style'
+    //     if (/\.woff$/.test(entry)) return 'font'
+    //     if (/\.png$/.test(entry)) return 'image'
+    //     return 'script'
+    //   },
+    //   include: ['app', 'vendor', 'manifest']
+    // }),
     new FriendlyErrorsPlugin({
       compilationSuccessInfo: {
-        messages: ['Listening at ' + uri],
+        messages: [`Listening at ${uri}`],
         notes: Object.keys(proxy).map(function (url) {
-          var target = proxy[url].target.replace(/\/$/, '')
-          var pathRewrite = proxy[url].pathRewrite
+          let target = proxy[url].target.replace(/\/$/, '')
+          const { pathRewrite } = proxy[url]
           if (pathRewrite) {
             Object.keys(pathRewrite).forEach(function (regex) {
               if (new RegExp(regex).test(url)) {
@@ -107,7 +106,7 @@ module.exports = merge(baseWebpackConfig, {
           } else {
             target = target + url
           }
-          return '[HPM] Proxy created: ' + url + '  ->  ' + target
+          return `[HPM] Proxy created: ${url} -> ${target}`
         })
       },
       onErrors: config.dev.notifyOnErrors
