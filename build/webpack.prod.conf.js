@@ -7,7 +7,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-const PreloadWebpackPlugin = require('preload-webpack-plugin')
+// const PreloadWebpackPlugin = require('preload-webpack-plugin')
 const sourceMapEnabled =
   process.env.NODE_ENV === 'production'
     ? config.build.productionSourceMap
@@ -36,7 +36,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       title: config.build.title,
       favicon: config.build.icon,
       filename: config.build.index,
-      template: 'index.html',
+      template: 'index.html'
     }),
     // new PreloadWebpackPlugin({
     //   rel: 'prefetch'
@@ -56,9 +56,9 @@ const webpackConfig = merge(baseWebpackConfig, {
       patterns: [
         {
           from: path.resolve(__dirname, '../static'),
-          to: config.build.assetsSubDirectory,
+          to: config.build.assetsSubDirectory
         }
-      ],
+      ]
     }),
     new MiniCssExtractPlugin({
       filename: utils.assetsPath('css/[name].[chunkhash].css'),

@@ -7,7 +7,7 @@ const sourceMapEnabled = isProduction
   ? config.build.productionSourceMap
   : config.dev.cssSourceMap
 
-function assetsPath(subPath) {
+function assetsPath (subPath) {
   const assetsSubDirectory =
     process.env.NODE_ENV === 'production'
       ? config.build.assetsSubDirectory
@@ -15,7 +15,7 @@ function assetsPath(subPath) {
   return path.posix.join(assetsSubDirectory, subPath)
 }
 
-function createNotifierCallback() {
+function createNotifierCallback () {
   const notifier = require('node-notifier')
 
   return function (severity, errors) {
@@ -33,7 +33,7 @@ function createNotifierCallback() {
   }
 }
 
-function generateCSSLoaders(loader, loaderOptions) {
+function generateCSSLoaders (loader, loaderOptions) {
   const loaders = [
     {
       loader: 'css-loader',
@@ -67,7 +67,7 @@ function generateCSSLoaders(loader, loaderOptions) {
           publicPath: isProduction
             ? config.build.assetsPublicPath
             : config.dev.assetsPublicPath
-        },
+        }
       }, ...loaders]
       : loaders
   } else {
@@ -75,6 +75,6 @@ function generateCSSLoaders(loader, loaderOptions) {
   }
 }
 
-exports.assetsPath = assetsPath;
-exports.createNotifierCallback = createNotifierCallback;
-exports.generateCSSLoaders = generateCSSLoaders;
+exports.assetsPath = assetsPath
+exports.createNotifierCallback = createNotifierCallback
+exports.generateCSSLoaders = generateCSSLoaders

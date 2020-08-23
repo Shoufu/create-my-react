@@ -1,4 +1,3 @@
-const path = require('path')
 const webpack = require('webpack')
 const config = require('../config')
 const utils = require('./utils')
@@ -6,8 +5,8 @@ const { merge } = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.base.conf')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
-const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
-const PreloadWebpackPlugin = require('preload-webpack-plugin')
+// const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
+// const PreloadWebpackPlugin = require('preload-webpack-plugin')
 
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = config.dev.env
@@ -71,7 +70,7 @@ module.exports = merge(baseWebpackConfig, {
       title: config.build.title,
       favicon: config.build.icon,
       filename: 'index.html',
-      template: 'index.html',
+      template: 'index.html'
     }),
     // new AddAssetHtmlPlugin({
     //   filepath: path.resolve(__dirname, '../static/vendors.bundle.js'),

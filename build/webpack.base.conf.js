@@ -58,7 +58,7 @@ const webpackConfig = {
         }
       }
     ]
-  },
+  }
 }
 
 if (config.build.useEslint) {
