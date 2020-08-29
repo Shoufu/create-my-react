@@ -8,15 +8,11 @@ module.exports = {
   base: {
     alias: {
       '@': resolve('src'),
-      '@actions': resolve('src/actions'),
       '@assets': resolve('src/assets'),
       '@components': resolve('src/components'),
       '@constants': resolve('src/constants'),
-      '@containers': resolve('src/containers'),
-      '@decorators': resolve('src/decorators'),
-      '@reducers': resolve('src/reducers'),
+      '@pages': resolve('src/pages'),
       '@routes': resolve('src/routes'),
-      '@store': resolve('src/store'),
       '@styles': resolve('src/styles'),
       '@utils': resolve('src/utils')
     }
