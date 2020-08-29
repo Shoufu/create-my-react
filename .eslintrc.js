@@ -1,20 +1,30 @@
 module.exports = {
   env: {
     browser: true,
-    commonjs: true,
-    es6: true
+    es6: true,
+    node: true
   },
-  extends: ['plugin:react/recommended', 'standard'],
-  parser: 'babel-eslint',
+  extends: [
+    'plugin:react/recommended',
+    'standard'
+  ],
+  globals: {
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly'
+  },
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 6,
-    sourceType: 'module',
     ecmaFeatures: {
       jsx: true
-    }
+    },
+    ecmaVersion: 2018,
+    sourceType: 'module'
   },
+  plugins: [
+    'react',
+    '@typescript-eslint'
+  ],
   rules: {
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'react/display-name': 0
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   }
 }
