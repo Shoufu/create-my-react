@@ -7,15 +7,15 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-// const PreloadWebpackPlugin = require('preload-webpack-plugin')
+const env = 'production'
 const sourceMapEnabled =
-  process.env.NODE_ENV === 'production'
+  process.env.NODE_ENV === env
     ? config.build.productionSourceMap
-    : config.dev.cssSourceMap
+    : false
 
 const webpackConfig = merge(baseWebpackConfig, {
   // https://webpack.docschina.org/configuration/mode/
-  mode: 'production',
+  mode: env,
   devtool: config.build.productionSourceMap ? '#source-map' : false,
   output: {
     path: config.build.assetsRoot,
@@ -32,25 +32,12 @@ const webpackConfig = merge(baseWebpackConfig, {
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      env: config.build.env,
+      env,
       title: config.build.title,
       favicon: config.build.icon,
       filename: config.build.index,
       template: 'index.html'
     }),
-    // new PreloadWebpackPlugin({
-    //   rel: 'prefetch'
-    // }),
-    // new PreloadWebpackPlugin({
-    //   rel: 'preload',
-    //   as (entry) {
-    //     if (/\.css$/.test(entry)) return 'style'
-    //     if (/\.woff$/.test(entry)) return 'font'
-    //     if (/\.png$/.test(entry)) return 'image'
-    //     return 'script'
-    //   },
-    //   include: ['app', 'vendor', 'manifest']
-    // }),
     // copy custom static assets
     new CopyWebpackPlugin({
       patterns: [

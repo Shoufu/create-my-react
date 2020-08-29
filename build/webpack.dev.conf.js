@@ -6,7 +6,6 @@ const baseWebpackConfig = require('./webpack.base.conf')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 // const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
-// const PreloadWebpackPlugin = require('preload-webpack-plugin')
 
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = config.dev.env
@@ -56,10 +55,6 @@ module.exports = merge(baseWebpackConfig, {
     }
   },
   plugins: [
-    // new webpack.DllReferencePlugin({
-    //   context: path.join(__dirname, '../static'),
-    //   manifest: require('../static/manifest.json')
-    // }),
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
@@ -76,19 +71,6 @@ module.exports = merge(baseWebpackConfig, {
     //   filepath: path.resolve(__dirname, '../static/vendors.bundle.js'),
     //   includeSourcemap: false,
     //   hash: true
-    // }),
-    // new PreloadWebpackPlugin({
-    //   rel: 'prefetch'
-    // }),
-    // new PreloadWebpackPlugin({
-    //   rel: 'preload',
-    //   as (entry) {
-    //     if (/\.css$/.test(entry)) return 'style'
-    //     if (/\.woff$/.test(entry)) return 'font'
-    //     if (/\.png$/.test(entry)) return 'image'
-    //     return 'script'
-    //   },
-    //   include: ['app', 'vendor', 'manifest']
     // }),
     new FriendlyErrorsPlugin({
       compilationSuccessInfo: {

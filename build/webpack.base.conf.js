@@ -3,7 +3,7 @@ const utils = require('./utils')
 const config = require('../config')
 const isProduction = process.env.NODE_ENV === 'production'
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
@@ -20,7 +20,7 @@ const webpackConfig = {
   },
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
-    alias: config.build.alias
+    alias: config.base.alias
   },
   module: {
     rules: [
@@ -68,6 +68,16 @@ const webpackConfig = {
       }
     ]
   }
+}
+
+if (config.base.styleLoaders) {
+  config.base.styleLoaders.forEach((loader) => {
+    webpackConfig.module.rules.push(
+      Array.isArray(loader)
+        ? utils.generateCSSLoaders(loader[0], loader[1])
+        : utils.generateCSSLoaders(loader)
+    )
+  })
 }
 
 if (config.build.useEslint) {
