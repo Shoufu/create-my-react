@@ -9,9 +9,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const env = 'production'
 const sourceMapEnabled =
-  process.env.NODE_ENV === env
-    ? config.build.productionSourceMap
-    : false
+  process.env.NODE_ENV === env ? config.build.productionSourceMap : false
 
 const webpackConfig = merge(baseWebpackConfig, {
   // https://webpack.docschina.org/configuration/mode/
@@ -55,30 +53,29 @@ const webpackConfig = merge(baseWebpackConfig, {
     new OptimizeCSSPlugin({
       cssProcessorOptions: sourceMapEnabled
         ? {
-          safe: true,
-          map: {
-            inline: false
+            safe: true,
+            map: {
+              inline: false
+            }
           }
-        }
         : {
-          safe: true
-        }
+            safe: true
+          }
     })
   ]
 })
 
 if (config.build.productionGzip) {
+  // https://github.com/webpack-contrib/compression-webpack-plugin
   const CompressionWebpackPlugin = require('compression-webpack-plugin')
 
   webpackConfig.plugins.push(
     new CompressionWebpackPlugin({
-      asset: '[path].gz[query]',
-      algorithm: 'gzip',
+      filename: '[path].gz[query]',
       test: new RegExp(
-        '\\.(' + config.build.productionGzipExtensions.join('|') + ')$'
+        `\\.(${config.build.productionGzipExtensions.join('|')})$`
       ),
-      threshold: 10240,
-      minRatio: 0.8
+      threshold: 10240
     })
   )
 }
