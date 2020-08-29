@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 /**
  * 封装的异步加载的组件，使用方法如下：
+ * ```jsx
  * // 引入该文件
  * import asyncImport from './bundle'
  * // 将引入的模块做处理
@@ -11,6 +12,7 @@ import React, { Component } from 'react'
  *    <Route path="/" exact component={Login} />
  * </Switch>
  * ...
+ * ```
  */
 export default function asyncComponent (importComponent) {
   class AsyncComponent extends Component {
