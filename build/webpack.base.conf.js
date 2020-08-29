@@ -9,7 +9,7 @@ function resolve (dir) {
 
 const webpackConfig = {
   entry: {
-    app: './src/App.jsx'
+    app: './src/App'
   },
   output: {
     path: config.build.assetsRoot,
@@ -19,15 +19,24 @@ const webpackConfig = {
       : config.dev.assetsPublicPath
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.json'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
     alias: config.build.alias
   },
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(js|jsx|ts|tsx)$/,
         loader: 'babel-loader?cacheDirectory',
-        include: [resolve('src')]
+        include: [resolve('src')],
+        options: {
+          // This is a feature of `babel-loader` for webpack (not Babel itself).
+          // It enables caching results in ./node_modules/.cache/babel-loader/
+          // directory for faster rebuilds.
+          cacheDirectory: true,
+          // See #6846 for context on why cacheCompression is disabled
+          cacheCompression: false,
+          compact: isProduction
+        }
       },
       {
         test: /\.css$/,
@@ -68,7 +77,7 @@ if (config.build.useEslint) {
     enforce: 'pre',
     include: [resolve('src')],
     options: {
-      formatter: require('eslint-friendly-formatter')
+      formatter: require('eslint-formatter-friendly')
     }
   }
 
