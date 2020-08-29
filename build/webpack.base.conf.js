@@ -72,7 +72,7 @@ const webpackConfig = {
 
 if (config.build.useEslint) {
   const eslintLoader = {
-    test: /\.(js|jsx)$/,
+    test: /\.(js|jsx|ts|tsx)$/,
     loader: 'eslint-loader',
     enforce: 'pre',
     include: [resolve('src')],
