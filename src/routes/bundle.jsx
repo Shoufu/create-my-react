@@ -14,9 +14,9 @@ import React, { Component } from 'react'
  * ...
  * ```
  */
-export default function asyncComponent (importComponent) {
+export default function asyncComponent(importComponent) {
   class AsyncComponent extends Component {
-    constructor (props) {
+    constructor(props) {
       super(props)
 
       this.state = {
@@ -24,15 +24,12 @@ export default function asyncComponent (importComponent) {
       }
     }
 
-    async componentDidMount () {
+    async componentDidMount() {
       const { default: component } = await importComponent()
-
-      this.setState({
-        component: component
-      })
+      this.setState({ component })
     }
 
-    render () {
+    render() {
       const C = this.state.component
 
       return C ? <C {...this.props} /> : null
