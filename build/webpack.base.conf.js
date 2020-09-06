@@ -1,8 +1,14 @@
 const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
 const isProduction = process.env.NODE_ENV === 'production'
+const env = isProduction ? 'production' : 'development'
+const useCDN = isProduction ? config.build.useCDN : config.dev.useCDN
+const moduleCDNConfs = utils.getModuleCDNConfigs()
+const externals = useCDN ? moduleCDNConfs.externals : {}
+const cdnConfigs = useCDN ? moduleCDNConfs.cdnConfigs : []
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
@@ -23,6 +29,7 @@ const webpackConfig = {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
     alias: config.base.alias
   },
+  externals,
   module: {
     rules: [
       {
@@ -70,6 +77,17 @@ const webpackConfig = {
     ]
   },
   plugins: [
+    // generate dist index.html with correct asset hash for caching.
+    // you can customize output by editing /index.html
+    // see https://github.com/ampedandwired/html-webpack-plugin
+    new HtmlWebpackPlugin({
+      title: config.build.title,
+      favicon: config.build.icon,
+      filename: config.build.index,
+      template: 'index.html',
+      cdnConfigs,
+      env
+    }),
     // https://github.com/mzgoddard/hard-source-webpack-plugin
     new HardSourceWebpackPlugin()
   ]

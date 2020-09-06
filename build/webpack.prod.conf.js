@@ -4,7 +4,6 @@ const config = require('../config')
 const { merge } = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.base.conf')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const env = 'production'
@@ -26,16 +25,6 @@ const webpackConfig = merge(baseWebpackConfig, {
     noEmitOnErrors: true
   },
   plugins: [
-    // generate dist index.html with correct asset hash for caching.
-    // you can customize output by editing /index.html
-    // see https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      env,
-      title: config.build.title,
-      favicon: config.build.icon,
-      filename: config.build.index,
-      template: 'index.html'
-    }),
     // copy custom static assets
     new CopyWebpackPlugin({
       patterns: [

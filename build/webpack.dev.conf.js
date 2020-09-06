@@ -3,7 +3,6 @@ const config = require('../config')
 const utils = require('./utils')
 const { merge } = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.base.conf')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 // const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
 
@@ -59,14 +58,6 @@ module.exports = merge(baseWebpackConfig, {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    // https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      env: config.dev.env,
-      title: config.build.title,
-      favicon: config.build.icon,
-      filename: 'index.html',
-      template: 'index.html'
-    }),
     // new AddAssetHtmlPlugin({
     //   filepath: path.resolve(__dirname, '../static/vendors.bundle.js'),
     //   includeSourcemap: false,
