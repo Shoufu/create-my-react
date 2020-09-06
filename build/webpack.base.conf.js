@@ -1,6 +1,7 @@
 const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
 const isProduction = process.env.NODE_ENV === 'production'
 
 function resolve(dir) {
@@ -67,7 +68,11 @@ const webpackConfig = {
         }
       }
     ]
-  }
+  },
+  plugins: [
+    // https://github.com/mzgoddard/hard-source-webpack-plugin
+    new HardSourceWebpackPlugin()
+  ]
 }
 
 if (config.base.styleLoaders) {

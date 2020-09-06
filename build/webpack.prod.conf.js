@@ -7,7 +7,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
 const env = 'production'
 const sourceMapEnabled =
   process.env.NODE_ENV === env ? config.build.productionSourceMap : false
@@ -62,9 +61,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         : {
             safe: true
           }
-    }),
-    // https://github.com/mzgoddard/hard-source-webpack-plugin
-    new HardSourceWebpackPlugin()
+    })
   ]
 })
 

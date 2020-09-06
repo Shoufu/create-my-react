@@ -37,9 +37,9 @@ module.exports = merge(baseWebpackConfig, {
     },
     overlay: config.dev.errorOverlay
       ? {
-        warnings: false,
-        errors: true
-      }
+          warnings: false,
+          errors: true
+        }
       : false,
 
     // webpack-dev-middleware options
