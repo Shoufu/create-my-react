@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
 
+type AsyncComponentState = {
+  component: typeof Component | null
+}
+
 /**
  * 封装的异步加载的组件，使用方法如下：
  * ```jsx
@@ -14,8 +18,10 @@ import React, { Component } from 'react'
  * ...
  * ```
  */
-export default function asyncComponent(importComponent) {
-  class AsyncComponent extends Component {
+export default function asyncComponent<TProps>(
+  importComponent: () => Promise<{ default: typeof Component }>
+) {
+  class AsyncComponent extends Component<TProps, AsyncComponentState> {
     constructor(props) {
       super(props)
 
