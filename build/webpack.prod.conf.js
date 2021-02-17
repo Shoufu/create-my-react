@@ -1,132 +1,76 @@
-var path = require('path')
-var utils = require('./utils')
-var webpack = require('webpack')
-var config = require('../config')
-var merge = require('webpack-merge')
-var baseWebpackConfig = require('./webpack.base.conf')
-var CopyWebpackPlugin = require('copy-webpack-plugin')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-var PreloadWebpackPlugin = require('preload-webpack-plugin')
-var sourceMapEnabled =
-  process.env.NODE_ENV === 'production'
-    ? config.build.productionSourceMap
-    : config.dev.cssSourceMap
+const path = require('path')
+const utils = require('./utils')
+const config = require('../config')
+const { merge } = require('webpack-merge')
+const baseWebpackConfig = require('./webpack.base.conf')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+const env = 'production'
+const sourceMapEnabled =
+  process.env.NODE_ENV === env ? config.build.productionSourceMap : false
 
-var webpackConfig = merge(baseWebpackConfig, {
+const webpackConfig = merge(baseWebpackConfig, {
+  // https://webpack.docschina.org/configuration/mode/
+  mode: env,
   devtool: config.build.productionSourceMap ? '#source-map' : false,
   output: {
     path: config.build.assetsRoot,
     filename: utils.assetsPath('js/[name].[chunkhash].js'),
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
+  // webpack 4 update, see: https://webpack.docschina.org/configuration/optimization
+  optimization: {
+    minimize: true,
+    noEmitOnErrors: true
+  },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      },
-      sourceMap: config.build.productionSourceMap,
-      parallel: true
-    }),
-    // generate dist index.html with correct asset hash for caching.
-    // you can customize output by editing /index.html
-    // see https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      env: config.build.env,
-      title: config.build.title,
-      favicon: config.build.icon,
-      filename: config.build.index,
-      template: 'index.html',
-      inject: true,
-      minify: {
-        // 更多配置参考:
-        // https://github.com/kangax/html-minifier#options-quick-reference
-        removeComments: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true
-      },
-      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: 'dependency'
-    }),
-    new PreloadWebpackPlugin({
-      rel: 'prefetch'
-    }),
-    new PreloadWebpackPlugin({
-      rel: 'preload',
-      as (entry) {
-        if (/\.css$/.test(entry)) return 'style'
-        if (/\.woff$/.test(entry)) return 'font'
-        if (/\.png$/.test(entry)) return 'image'
-        return 'script'
-      },
-      include: ['app', 'vendor', 'manifest']
-    }),
-    // split vendor js into its own file
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks: function (module, count) {
-        // any required modules inside node_modules are extracted to vendor
-        return (
-          module.resource &&
-          /\.js$/.test(module.resource) &&
-          module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0
-        )
-      }
-    }),
-    // extract webpack runtime and module manifest to its own file in order to
-    // prevent vendor hash from being updated whenever app bundle is updated
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'manifest',
-      chunks: ['vendor']
-    }),
     // copy custom static assets
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, '../static'),
-        to: config.build.assetsSubDirectory,
-        ignore: ['.*', 'manifest.json', 'vendors.bundle.js']
-      }
-    ]),
-    // 提取 CSS 为单独的文件
-    new ExtractTextPlugin({
-      filename: utils.assetsPath('css/[name].[contenthash].css'),
-      allChunks: true
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, '../static'),
+          to: config.build.assetsSubDirectory
+        }
+      ]
+    }),
+    new MiniCssExtractPlugin({
+      filename: utils.assetsPath('css/[name].[chunkhash].css'),
+      chunkFilename: utils.assetsPath('css/[id].[chunkhash].css')
     }),
     // 压缩 CSS 文件
     new OptimizeCSSPlugin({
       cssProcessorOptions: sourceMapEnabled
         ? {
-          safe: true,
-          map: {
-            inline: false
+            safe: true,
+            map: {
+              inline: false
+            }
           }
-        }
         : {
-          safe: true
-        }
+            safe: true
+          }
     })
   ]
 })
 
 if (config.build.productionGzip) {
-  var CompressionWebpackPlugin = require('compression-webpack-plugin')
+  // https://github.com/webpack-contrib/compression-webpack-plugin
+  const CompressionWebpackPlugin = require('compression-webpack-plugin')
 
   webpackConfig.plugins.push(
     new CompressionWebpackPlugin({
-      asset: '[path].gz[query]',
-      algorithm: 'gzip',
+      filename: '[path].gz[query]',
       test: new RegExp(
-        '\\.(' + config.build.productionGzipExtensions.join('|') + ')$'
+        `\\.(${config.build.productionGzipExtensions.join('|')})$`
       ),
-      threshold: 10240,
-      minRatio: 0.8
+      threshold: 10240
     })
   )
 }
 
 if (config.build.bundleAnalyzerReport) {
-  var BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
     .BundleAnalyzerPlugin
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }

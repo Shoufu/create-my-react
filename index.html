@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="theme-color" content="#000000">
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <% htmlWebpackPlugin.options.cdnConfigs.forEach(function(item){ if (item.css) { %>
+      <link href="<%= item.css %>" rel="stylesheet" />
+    <% }}) %>
     <!-- ......................我佛慈悲........................  -->
     <!--                                                        -->
     <!--                       _oo0oo_                          -->
@@ -26,12 +29,15 @@
     <!--     =====`-.____`.___ \_____/___.-`___.-'=====         -->
     <!--                       `=---='                          -->
     <!--                                                        -->
-    <!-- ..................佛祖开光, 永无BUG...................  -->
+    <!-- ..................佛祖开光, 永无BUG...................   -->
   </head>
   <body>
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
     <div id="root"></div>
+    <% htmlWebpackPlugin.options.cdnConfigs.forEach(function(item) { if (item.js) { %>
+      <script type="text/javascript" src="<%= item.js %>"></script>
+    <% }}) %>
   </body>
 </html>

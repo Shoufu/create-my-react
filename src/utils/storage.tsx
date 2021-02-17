@@ -1,4 +1,8 @@
-export default class Storage {
+export default class WebStorage {
+  name: string
+  storage: Storage;
+  data: { [key: string]: any }
+
   constructor(name, initialValue = {}, storage = sessionStorage) {
     this.name = name
     this.storage = storage
@@ -7,18 +11,18 @@ export default class Storage {
       : initialValue
   }
 
-  set = (key, value) => {
+  set = (key: string, value) => {
     this.data[key] = value
     this.storage[this.name] = JSON.stringify(this.data)
   }
 
-  get = (key, defaultValue = undefined) => {
+  get = (key: string, defaultValue = undefined) => {
     if (!this.storage[this.name]) return defaultValue
     const data = JSON.parse(this.storage[this.name])
     return data[key]
   }
 
-  remove = (key) => {
+  remove = (key: string) => {
     delete this.data[key]
     this.storage[this.name] = JSON.stringify(this.data)
   }

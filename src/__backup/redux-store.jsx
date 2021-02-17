@@ -1,18 +1,21 @@
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, combineReducers } from 'redux'
 import { createLogger } from 'redux-logger'
 import thunk from 'redux-thunk'
-import reducers from '@reducers'
+
+/**
+ * 这里是 Redux Store 的备份代码，如果想使用 redux 则可以使用这份代码
+ */
 
 const initialState = window.__INITIAL_STATE__ || {}
 const middleware = [thunk]
+const reducers = combineReducers({})
 
-// eslint-disable-next-line
 if (process.env.NODE_ENV !== 'production') {
   const logger = createLogger()
   middleware.push(logger)
 }
 
-export default function configureStore () {
+export default function configureStore() {
   const store = createStore(
     reducers,
     initialState,

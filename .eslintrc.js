@@ -1,20 +1,32 @@
 module.exports = {
   env: {
     browser: true,
-    commonjs: true,
-    es6: true
+    es6: true,
+    node: true
   },
   extends: ['plugin:react/recommended', 'standard'],
-  parser: 'babel-eslint',
+  globals: {
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly'
+  },
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 6,
-    sourceType: 'module',
     ecmaFeatures: {
       jsx: true
-    }
+    },
+    ecmaVersion: 2018,
+    sourceType: 'module'
   },
+  plugins: ['react', '@typescript-eslint'],
   rules: {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'react/display-name': 0
+    'space-before-function-paren': 'off',
+    // 三元表达式默认缩进，与 Prettier 相同
+    indent: ['error', 2, { offsetTernaryExpressions: true }]
+  },
+  settings: {
+    react: {
+      version: 'detect'
+    }
   }
 }

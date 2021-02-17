@@ -1,22 +1,8 @@
 {
   "presets": [
-    ["env", {
-      "modules": false,
-      "targets": {
-        "browsers": ["> 1%", "last 2 versions", "not ie <= 8"]
-      }
-    }],
-    "react",
-    "stage-0"
+    "@babel/preset-env",
+    "@babel/preset-react",
+    "@babel/preset-typescript"
   ],
-  "plugins": [
-    "transform-runtime",
-    "transform-decorators-legacy"
-  ],
-  "env": {
-    "test": {
-      "presets": ["env", "stage-3"],
-      "plugins": ["istanbul"]
-    }
-  }
+  "plugins": ["@babel/plugin-transform-runtime"]
 }

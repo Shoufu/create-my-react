@@ -1,7 +1,12 @@
 import React, { Component } from 'react'
 
+type AsyncComponentState = {
+  component: typeof Component | null
+}
+
 /**
  * 封装的异步加载的组件，使用方法如下：
+ * ```jsx
  * // 引入该文件
  * import asyncImport from './bundle'
  * // 将引入的模块做处理
@@ -11,10 +16,13 @@ import React, { Component } from 'react'
  *    <Route path="/" exact component={Login} />
  * </Switch>
  * ...
+ * ```
  */
-export default function asyncComponent (importComponent) {
-  class AsyncComponent extends Component {
-    constructor (props) {
+export default function asyncComponent<TProps>(
+  importComponent: () => Promise<{ default: typeof Component }>
+) {
+  class AsyncComponent extends Component<TProps, AsyncComponentState> {
+    constructor(props) {
       super(props)
 
       this.state = {
@@ -22,15 +30,12 @@ export default function asyncComponent (importComponent) {
       }
     }
 
-    async componentDidMount () {
+    async componentDidMount() {
       const { default: component } = await importComponent()
-
-      this.setState({
-        component: component
-      })
+      this.setState({ component })
     }
 
-    render () {
+    render() {
       const C = this.state.component
 
       return C ? <C {...this.props} /> : null
