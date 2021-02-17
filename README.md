@@ -2,6 +2,8 @@
 
 这是一个仿 vue-cli 的一个 React webpack 脚手架，配置参考 [vue-cli@2.9.6](https://github.com/vuejs/vue-cli) 。
 
+该项目已经升级 Webpack 4，升级记录可以参考 [Feat update webpack 4 #2](https://github.com/brilliantGuo/create-my-react/pull/2)
+
 ## 使用说明
 
 首先，当然是把项目保存到本地
